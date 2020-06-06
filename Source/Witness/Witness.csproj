@@ -11,5 +11,10 @@
         <Description>Micro-framework for building object validation in fluent style</Description>
         <PackageTags>fluentvalidation;validation;validation-rules</PackageTags>
     </PropertyGroup>
-
+    
+    <ItemGroup Label="Project References">
+        <PackageReference Include="GitVersionTask" Version="5.3.5">
+            <PrivateAssets>All</PrivateAssets>
+        </PackageReference>
+    </ItemGroup>
 </Project>
