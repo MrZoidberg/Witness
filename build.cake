@@ -1,4 +1,6 @@
 var target = Argument("Target", "Default");
+var nugetApiKey = Argument("NUGET_API_KEY", "");
+
 var configuration =
     HasArgument("Configuration") ? Argument<string>("Configuration") :
     EnvironmentVariable("Configuration") is object ? EnvironmentVariable("Configuration") :
@@ -72,6 +74,16 @@ Task("Pack")
                 NoRestore = true,
                 OutputDirectory = artefactsDirectory,
             });
+    });
+
+Task("Publish")
+    .IsDependentOn("Pack")
+    .Does(()=> 
+    {
+        NuGetPush(GetFiles($"{artefactsDirectory}/*.nupkg").First(), new NuGetPushSettings {
+            Source = "https://www.nuget.org/api/v2",
+            ApiKey = nugetApiKey
+        });
     });
 
 Task("Default")
