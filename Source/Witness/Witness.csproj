@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup Label="Build">
+        <TargetFramework>netstandard2.1</TargetFramework>
+        <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+        <NoWarn>SA1633</NoWarn>
+    </PropertyGroup>
+
+    <PropertyGroup Label="Package">
+        <Product>Witness</Product>
+        <Description>Micro-framework for building object validation in fluent style</Description>
+        <PackageTags>fluentvalidation;validation;validation-rules</PackageTags>
+    </PropertyGroup>
+
+</Project>
