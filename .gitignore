@@ -351,3 +351,9 @@ MigrationBackup/
 
 #Idea files
 .idea/
+
+#Artefacts
+Artefacts/
+
+#Cake tools
+tools/

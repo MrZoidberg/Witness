@@ -4,10 +4,12 @@
         <TargetFramework>netstandard2.1</TargetFramework>
         <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
         <NoWarn>SA1633;SA1028</NoWarn>
+        <PackageId>WitnessValidation</PackageId>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Product>Witness</Product>
+        <Product>WitnessValidation</Product>
         <Description>Micro-framework for building object validation in fluent style</Description>
         <PackageTags>fluentvalidation;validation;validation-rules</PackageTags>
     </PropertyGroup>

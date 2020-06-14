@@ -1,11 +1,6 @@
 name: Build
 
-on:
-  push:
-    branches:
-      - '*'
-    tags:
-      - '*'
+on: ["push", "pull_request"]
 
 env:
   # Set the DOTNET_SKIP_FIRST_TIME_EXPERIENCE environment variable to stop wasting time caching packages
@@ -52,3 +47,7 @@ jobs:
       with:
         name: ${{matrix.os}}
         path: './Artefacts'
+    - name: Coveralls
+      uses: coverallsapp/github-action@master
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}

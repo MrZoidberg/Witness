@@ -1,5 +1,5 @@
 var target = Argument("Target", "Default");
-var nugetApiKey = Argument("NUGET_API_KEY", "");
+var nugetApiKey = EnvironmentVariable("NUGET_API_KEY");
 
 var configuration =
     HasArgument("Configuration") ? Argument<string>("Configuration") :
@@ -55,7 +55,8 @@ Task("Test")
                 ArgumentCustomization = x => x
                     .Append("--blame")
                     .AppendSwitch("--logger", $"html;LogFileName={project.GetFilenameWithoutExtension()}.html")
-                    .Append("--collect:\"XPlat Code Coverage\""),
+                    .Append("--collect:\"XPlat Code Coverage\"")
+                    .Append("--settings runsettings.xml"),
             });
     });
 
@@ -64,7 +65,7 @@ Task("Pack")
     .Does(() =>
     {
         DotNetCorePack(
-            ".",
+            "./Source/Witness/Witness.csproj",
             new DotNetCorePackSettings()
             {
                 Configuration = configuration,
@@ -81,7 +82,7 @@ Task("Publish")
     .Does(()=> 
     {
         NuGetPush(GetFiles($"{artefactsDirectory}/*.nupkg").First(), new NuGetPushSettings {
-            Source = "https://www.nuget.org/api/v2",
+            Source = "https://api.nuget.org/v3/index.json",
             ApiKey = nugetApiKey
         });
     });
