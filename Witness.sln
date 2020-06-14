@@ -55,6 +55,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Witness", "Source\Witness\W
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Witness.Test", "Tests\Witness.Test\Witness.Test.csproj", "{528E66EB-2232-4534-A20D-9BC8A240BF2F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Witness.Example", "Source\Witness.Example\Witness.Example.csproj", "{5ACE33A3-ECAB-4E5D-A75D-D7BD09D06382}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +71,10 @@ Global
 		{528E66EB-2232-4534-A20D-9BC8A240BF2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{528E66EB-2232-4534-A20D-9BC8A240BF2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{528E66EB-2232-4534-A20D-9BC8A240BF2F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5ACE33A3-ECAB-4E5D-A75D-D7BD09D06382}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5ACE33A3-ECAB-4E5D-A75D-D7BD09D06382}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5ACE33A3-ECAB-4E5D-A75D-D7BD09D06382}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5ACE33A3-ECAB-4E5D-A75D-D7BD09D06382}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -78,6 +84,7 @@ Global
 		{0555C737-CE4B-4C78-87AB-6296E1E32D01} = {7EDFA103-DB69-4C88-9DE4-97ADBF8253A1}
 		{D49F5A02-D549-4EF4-8776-89C35A71EB2D} = {719809C2-A551-4C4A-9EFD-B10FB5E35BC0}
 		{528E66EB-2232-4534-A20D-9BC8A240BF2F} = {E1B24F25-B8A4-46EE-B7EB-7803DCFC543F}
+		{5ACE33A3-ECAB-4E5D-A75D-D7BD09D06382} = {719809C2-A551-4C4A-9EFD-B10FB5E35BC0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {73F36209-F8D6-4066-8951-D97729F773CF}

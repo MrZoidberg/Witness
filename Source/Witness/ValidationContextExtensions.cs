@@ -1,9 +1,12 @@
 ﻿// ReSharper disable UnusedMember.Global
+
 namespace Witness
 {
     using System;
     using System.Diagnostics.CodeAnalysis;
     using System.Diagnostics.Contracts;
+    using System.Linq;
+    using System.Linq.Expressions;
 
     /// <summary>
     /// <see cref="IValidationContext{T,TR}"/> extensions.
@@ -23,7 +26,7 @@ namespace Witness
         [Pure]
         public static IValidationContext<T, T2> Map<T, TR, T2>(
             this IValidationContext<T, TR> context,
-            Func<IValidationContext<T, TR>, T2> map, 
+            Func<IValidationContext<T, TR>, T2> map,
             string valueName)
             where T : class
         {
@@ -39,9 +42,42 @@ namespace Witness
 
             var contextInstance = context;
             return new ValidationContext<T, T2>(
-                contextInstance.RootOUV, 
-                map(contextInstance), 
+                contextInstance.RootOUV,
+                map(contextInstance),
                 valueName,
+                contextInstance.ValidationErrors);
+        }
+
+        /// <summary>
+        /// Map validation context to change object under validation.
+        /// </summary>
+        /// <param name="context">Current validation context.</param>
+        /// <param name="mapExpression">Map expression.</param>
+        /// <typeparam name="T">Type of the root OUV.</typeparam>
+        /// <typeparam name="TR">Type of current OUV.</typeparam>
+        /// <typeparam name="T2">Type of mapped OUV.</typeparam>
+        /// <returns>Validation context with T2 OUV.</returns>
+        [Pure]
+        public static IValidationContext<T, T2> Map<T, TR, T2>(
+            this IValidationContext<T, TR> context,
+            Expression<Func<IValidationContext<T, TR>, T2>> mapExpression)
+            where T : class
+        {
+            if (context == null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+
+            if (mapExpression == null)
+            {
+                throw new ArgumentNullException(nameof(mapExpression));
+            }
+
+            var contextInstance = context;
+            return new ValidationContext<T, T2>(
+                contextInstance.RootOUV,
+                mapExpression.Compile().Invoke(contextInstance),
+                GetMemberName(mapExpression),
                 contextInstance.ValidationErrors);
         }
 
@@ -113,7 +149,13 @@ namespace Witness
         public static Func<IValidationContext<T, T>> And<T, T1>(this Func<IValidationContext<T, T1>> input)
             where T : class
         {
-            return () => new ValidationContext<T, T>(input().RootOUV);
+            if (input == null)
+            {
+                throw new ArgumentNullException(nameof(input));
+            }
+            
+            var c = input();
+            return () => new ValidationContext<T, T>(c.RootOUV, c.RootOUV, c.RootOUV.GetType().Name, c.ValidationErrors);
         }
 
         /// <summary>
@@ -128,13 +170,13 @@ namespace Witness
         {
             return () =>
             {
-                var result = input();
-                if (string.IsNullOrEmpty(result.OUV))
+                var c = input();
+                if (string.IsNullOrEmpty(c.OUV))
                 {
-                    throw new ValidationException($"{result.OUVName} cannot be empty or null");
+                    c.ValidationErrors.Add($"{c.OUVName} cannot be empty or null");
                 }
 
-                return result;
+                return c;
             };
         }
 
@@ -157,13 +199,24 @@ namespace Witness
 
             try
             {
-                context();
-                return (true, Array.Empty<string>());
+                var result = context();
+                return (!result.ValidationErrors.Any(), result.ValidationErrors.ToArray());
             }
             catch (Exception e)
             {
-                return (false, new[] {e.Message});
+                return (false, new[] { e.Message });
             }
+        }
+        
+        private static string GetMemberName<T, TR, T2>(Expression<Func<IValidationContext<T, TR>, T2>> expression)
+        {
+            if (!(expression.Body is MemberExpression body)) 
+            {
+                UnaryExpression ubody = (UnaryExpression)expression.Body;
+                body = ubody.Operand as MemberExpression;
+            }
+
+            return body?.Member.Name; 
         }
     }
 }

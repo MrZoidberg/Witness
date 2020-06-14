@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <NoWarn>SA1633;SA1028;SA1600;SA1303</NoWarn>
+        <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+      <DocumentationFile />
+      <WarningLevel>2</WarningLevel>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+      <WarningLevel>2</WarningLevel>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Witness\Witness.csproj" />
+    </ItemGroup>
+
+</Project>

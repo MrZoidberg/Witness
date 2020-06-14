@@ -9,7 +9,7 @@
     /// <typeparam name="T">Type of the root object under validation.</typeparam>
     /// <typeparam name="TR">Type of the current object under validation.</typeparam>
     /// <inheritdoc/>
-    public sealed class ValidationContext<T, TR> : IValidationContext<T, TR>
+    public class ValidationContext<T, TR> : IValidationContext<T, TR>
         where T : class
     {
         /// <summary>
