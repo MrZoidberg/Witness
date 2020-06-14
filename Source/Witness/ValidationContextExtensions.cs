@@ -3,7 +3,6 @@
 namespace Witness
 {
     using System;
-    using System.Diagnostics.CodeAnalysis;
     using System.Diagnostics.Contracts;
     using System.Linq;
     using System.Linq.Expressions;
@@ -188,7 +187,6 @@ namespace Witness
         /// <typeparam name="T1">Type of the current OUV for input function.</typeparam>
         /// <returns>Is valid flag and array of validation errors.</returns>
         [Pure]
-        [SuppressMessage("ReSharper", "CA1031", Justification = "It's not know what exception will occur")]
         public static (bool IsValid, string[] ValidationErrors) ExecuteValidation<T, T1>(
             this Func<IValidationContext<T, T1>> context)
         {
@@ -202,7 +200,7 @@ namespace Witness
                 var result = context();
                 return (!result.ValidationErrors.Any(), result.ValidationErrors.ToArray());
             }
-            catch (Exception e)
+            catch (ValidationException e)
             {
                 return (false, new[] { e.Message });
             }
@@ -212,8 +210,8 @@ namespace Witness
         {
             if (!(expression.Body is MemberExpression body)) 
             {
-                UnaryExpression ubody = (UnaryExpression)expression.Body;
-                body = ubody.Operand as MemberExpression;
+                UnaryExpression unaryBody = (UnaryExpression)expression.Body;
+                body = unaryBody.Operand as MemberExpression;
             }
 
             return body?.Member.Name; 
