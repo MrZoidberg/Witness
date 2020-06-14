@@ -9,13 +9,13 @@
         [Pure]
         public static Func<IValidationContext<Person, string>> FirstName(this Func<IValidationContext<Person, Person>> context)
         {
-            return () => { return context().Map(c => c.RootOUV.FirstName, "FirstName"); };
+            return () => { return context().RuleFor(c => c.RootOUV.FirstName, "FirstName"); };
         }
 
         [Pure]
         public static Func<IValidationContext<Person, string>> LastName(this Func<IValidationContext<Person, Person>> context)
         {
-            return () => { return context().Map(c => c.RootOUV.LastName, "LastName"); };
+            return () => { return context().RuleFor(c => c.RootOUV.LastName, "LastName"); };
         }
     }
 }

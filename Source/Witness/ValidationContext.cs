@@ -56,5 +56,8 @@
 
         /// <inheritdoc/>
         public List<string> ValidationErrors { get; private set; }
+
+        /// <inheritdoc/>
+        public Dictionary<string, object> ContextData { get; }
     }
 }

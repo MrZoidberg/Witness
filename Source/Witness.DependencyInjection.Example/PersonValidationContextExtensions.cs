@@ -1,4 +1,4 @@
-﻿namespace Witness.Example
+﻿namespace Witness.DependencyInjection.Example
 {
     using System;
     using System.Diagnostics.Contracts;

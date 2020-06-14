@@ -23,7 +23,7 @@ namespace Witness
         /// <typeparam name="T2">Type of mapped OUV.</typeparam>
         /// <returns>Validation context with T2 OUV.</returns>
         [Pure]
-        public static IValidationContext<T, T2> Map<T, TR, T2>(
+        public static IValidationContext<T, T2> RuleFor<T, TR, T2>(
             this IValidationContext<T, TR> context,
             Func<IValidationContext<T, TR>, T2> map,
             string valueName)
@@ -57,9 +57,9 @@ namespace Witness
         /// <typeparam name="T2">Type of mapped OUV.</typeparam>
         /// <returns>Validation context with T2 OUV.</returns>
         [Pure]
-        public static IValidationContext<T, T2> Map<T, TR, T2>(
+        public static IValidationContext<T, T2> RuleFor<T, TR, T2>(
             this IValidationContext<T, TR> context,
-            Expression<Func<IValidationContext<T, TR>, T2>> mapExpression)
+            Expression<Func<T, T2>> mapExpression)
             where T : class
         {
             if (context == null)
@@ -75,7 +75,7 @@ namespace Witness
             var contextInstance = context;
             return new ValidationContext<T, T2>(
                 contextInstance.RootOUV,
-                mapExpression.Compile().Invoke(contextInstance),
+                mapExpression.Compile().Invoke(contextInstance.RootOUV),
                 GetMemberName(mapExpression),
                 contextInstance.ValidationErrors);
         }
@@ -83,14 +83,19 @@ namespace Witness
         /// <summary>
         /// Initialize setup of validation pipeline for the validation context object.
         /// </summary>
-        /// <param name="context">Validation context object.</param>
+        /// <param name="rootObject">Root object for validation.</param>
         /// <typeparam name="T">Type of the root OUV (object under validation).</typeparam>
-        /// <typeparam name="TR">Type of the current OUV.</typeparam>
         /// <returns>Validation pipeline function.</returns>
         [Pure]
-        public static Func<IValidationContext<T, TR>> SetupValidation<T, TR>(this IValidationContext<T, TR> context)
+        public static Func<IValidationContext<T, T>> SetupValidation<T>(this T rootObject)
+            where T : class
         {
-            return () => context;
+            if (rootObject == null)
+            {
+                throw new ArgumentNullException(nameof(rootObject));
+            }
+
+            return () => new RootValidationContext<T>(rootObject);
         }
 
         /// <summary>
@@ -153,8 +158,11 @@ namespace Witness
                 throw new ArgumentNullException(nameof(input));
             }
             
-            var c = input();
-            return () => new ValidationContext<T, T>(c.RootOUV, c.RootOUV, c.RootOUV.GetType().Name, c.ValidationErrors);
+            return () =>
+            {
+                var c = input();
+                return new ValidationContext<T, T>(c.RootOUV, c.RootOUV, c.RootOUV.GetType().Name, c.ValidationErrors);
+            };
         }
 
         /// <summary>
@@ -206,7 +214,7 @@ namespace Witness
             }
         }
         
-        private static string GetMemberName<T, TR, T2>(Expression<Func<IValidationContext<T, TR>, T2>> expression)
+        private static string GetMemberName<T, T2>(Expression<Func<T, T2>> expression)
         {
             if (!(expression.Body is MemberExpression body)) 
             {

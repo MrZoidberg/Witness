@@ -1,8 +1,9 @@
-﻿namespace Witness.Example
+﻿namespace Witness.DependencyInjection.Example
 {
     using System;
+    using Microsoft.Extensions.DependencyInjection;
 
-    internal static class Program
+    class Program
     {
         private static void Main()
         {
@@ -12,20 +13,26 @@
                 LastName = string.Empty,
                 Age = 5,
             };
+            
+            var serviceProviderCollection = new ServiceCollection();
+            serviceProviderCollection.AddTransient<IGithubService, GithubService>();
+            IServiceProvider serviceProvider = serviceProviderCollection.BuildServiceProvider();
 
             Console.WriteLine("Validation errors:");
-            foreach (string err in Validate(person))
+            foreach (string err in Validate(person, serviceProvider))
             {
                 Console.WriteLine(err);
             }
-
+            
+            
             Console.ReadKey();
         }
 
-        private static string[] Validate(Person person)
+        private static string[] Validate(Person person, IServiceProvider serviceProvider)
         {
             var result = person
                 .SetupValidation()
+                .WithServiceProvider(serviceProvider)
                 .FirstName().ShouldNotBeEmptyOrNull()
                 .And()
                 .LastName().ShouldNotBeEmptyOrNull()

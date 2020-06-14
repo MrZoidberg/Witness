@@ -15,10 +15,8 @@
                 FirstName = "Joe",
             };
 
-            RootValidationContext<Person> context = new RootValidationContext<Person>(person);
-
             // act
-            var firstNameContext = context.SetupValidation().Invoke().Map(c => c.RootOUV.FirstName);
+            var firstNameContext = person.SetupValidation().Invoke().RuleFor(c => c.FirstName);
 
             // assert
             firstNameContext.RootOUV.Should().Be(person);
@@ -39,7 +37,7 @@
             RootValidationContext<Person> context = new RootValidationContext<Person>(person);
 
             // act
-            Action action = () => context.SetupValidation().Invoke().Map<Person, Person, string>(null);
+            Action action = () => _ = person.SetupValidation().Invoke().RuleFor<Person, Person, string>(null);
 
             // assert
             action.Should().ThrowExactly<ArgumentNullException>();
