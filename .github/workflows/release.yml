@@ -1,3 +1,5 @@
+name: Release
+
 on:
   push:
     tags:
@@ -33,13 +35,18 @@ jobs:
       run: dotnet cake --target=Pack
       shell: pwsh
     - name: 'Dotnet Cacke Publish'
-      run: run: dotnet cake --target=Publish
+      run: dotnet cake --target=Publish
       shell: pwsh
-    - name: 'Publish Packages'
+    - name: 'Publish Packages (nupkg)'
       uses: actions/upload-artifact@v1.0.0
       with:
         name: package
-        path: './Artefacts/*.*nupkg;'
+        path: './Artefacts/*.nupkg;'
+    - name: 'Publish Packages (snupkg)'
+      uses: actions/upload-artifact@v1.0.0
+      with:
+        name: package
+        path: './Artefacts/*.snupkg;'
     - name: 'Publish Code Coverage'
       uses: actions/upload-artifact@v1.0.0
       with:
