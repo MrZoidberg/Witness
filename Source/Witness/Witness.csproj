@@ -15,7 +15,7 @@
     </PropertyGroup>
     
     <ItemGroup Label="Project References">
-        <PackageReference Include="GitVersionTask" Version="5.3.5">
+        <PackageReference Include="GitVersionTask" Version="5.3.6">
             <PrivateAssets>All</PrivateAssets>
         </PackageReference>
     </ItemGroup>
