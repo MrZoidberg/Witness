@@ -37,7 +37,7 @@
                 .And()
                 .LastName().ShouldNotBeEmptyOrNull()
                 .And()
-                .Age().ShouldBeInValidRange(18, 100)
+                .Age().ShouldBeInRange(18, 100)
                 .And()
                 .GithubAccount().ShouldExistInGithub()
                 .ExecuteValidation();

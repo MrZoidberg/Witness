@@ -36,7 +36,7 @@
                 .And()
                 .LastName().ShouldNotBeEmptyOrNull()
                 .And()
-                .Age().ShouldBeInValidRange(18, 100)
+                .Age().ShouldBeInRange(18, 100)
                 .And()
                 .GithubAccount().ShouldExistInGithub()
                 .ExecuteValidation();
@@ -52,7 +52,7 @@
                 .And()
                 .RuleFor(c => c.LastName).ShouldNotBeEmptyOrNull()
                 .And()
-                .RuleFor(c => c.Age).ShouldBeInValidRange(18, 100)
+                .RuleFor(c => c.Age).ShouldBeInRange(18, 100)
                 .And()
                 .RuleFor(c => c.GithubAccount).ShouldExistInGithub()
                 .ExecuteValidation();

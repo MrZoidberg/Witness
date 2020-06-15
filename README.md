@@ -33,50 +33,9 @@ public class Person
     public string GithubAccount { get; set; }
 }
 
-public static class PersonValidationContextExtensions
-{
-    [Pure]
-    public static Func<IValidationContext<Person, string>> FirstName(this Func<IValidationContext<Person, Person>> context)
-    {
-        return () => { return context().Map(c => c.RootOUV.FirstName); };
-    }
-
-    [Pure]
-    public static Func<IValidationContext<Person, string>> LastName(this Func<IValidationContext<Person, Person>> context)
-    {
-        return () => { return context().Map(c => c.RootOUV.LastName); };
-    }
-    
-    [Pure]
-    public static Func<IValidationContext<Person, string>> GithubAccount(this Func<IValidationContext<Person, Person>> context)
-    {
-        return () => { return context().Map(c => c.RootOUV.GithubAccount); };
-    }
-    
-    [Pure]
-    public static Func<IValidationContext<Person, uint>> Age(this Func<IValidationContext<Person, Person>> context)
-    {
-        return () => { return context().Map(c => c.RootOUV.Age); };
-    }
-}
 
 public static class PersonValidationRulesExtensions
-{
-    [Pure]
-    public static Func<IValidationContext<Person, uint>> ShouldBeInValidRange(this Func<IValidationContext<Person, uint>> context, uint minIncluding, uint maxIncluding)
-    {
-        return () =>
-        {
-            var c = context();
-            if (c.OUV < minIncluding || c.OUV > maxIncluding)
-            {
-                c.ValidationErrors.Add($"{c.OUVName} should be in range [{minIncluding};{maxIncluding}]");
-            }
-
-            return c;
-        };
-    }
-    
+{    
     [Pure]
     public static Func<IValidationContext<Person, string>> ShouldExistInGithub(this Func<IValidationContext<Person, string>> context)
     {
@@ -112,21 +71,18 @@ Person person = new Person()
     FirstName = "Joe",
     LastName = string.Empty,
     Age = 5,
+    GithubAccount = "test",
 };
 
 RootValidationContext<Person> validationContext = new RootValidationContext<Person>(person);
-var result = validationContext
+var result = person
     .SetupValidation()
-    .FirstName()
-    .ShouldNotBeEmptyOrNull()
+    .RuleFor(c => c.FirstName).ShouldNotBeEmptyOrNull()
     .And()
-    .LastName()
-    .ShouldNotBeEmptyOrNull()
+    .RuleFor(c => c.LastName).ShouldNotBeEmptyOrNull()
     .And()
-    .Age()
-    .ShouldBeInValidRange(18, 100)
+    .RuleFor(c => c.Age).ShouldBeInRange(18, 100)
     .And()
-    .GithubAccount()
-    .ShouldExistInGithub()
+    .RuleFor(c => c.GithubAccount).ShouldExistInGithub()
     .ExecuteValidation();
 ```

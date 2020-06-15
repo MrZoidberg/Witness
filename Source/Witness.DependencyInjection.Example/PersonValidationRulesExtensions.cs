@@ -9,21 +9,6 @@
     public static class PersonValidationRulesExtensions
     {
         [Pure]
-        public static Func<IValidationContext<Person, uint>> ShouldBeInValidRange(this Func<IValidationContext<Person, uint>> context, uint minIncluding, uint maxIncluding)
-        {
-            return () =>
-            {
-                var c = context();
-                if (c.OUV < minIncluding || c.OUV > maxIncluding)
-                {
-                    c.ValidationErrors.Add($"{c.OUVName} should be in range [{minIncluding};{maxIncluding}]");
-                }
-
-                return c;
-            };
-        }
-        
-        [Pure]
         public static Func<IValidationContext<Person, string>> ShouldExistInGithub(this Func<IValidationContext<Person, string>> context)
         {
             return () =>
