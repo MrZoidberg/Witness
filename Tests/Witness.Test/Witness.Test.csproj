@@ -3,7 +3,7 @@
     <PropertyGroup Label="Build">
         <TargetFramework>netcoreapp3.1</TargetFramework>
         <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
-        <NoWarn>SA1633;CA1707;SA0001;SA1600</NoWarn>
+        <NoWarn>SA1633;CA1707;SA0001;SA1600;CS1591</NoWarn>
     </PropertyGroup>
 
     <ItemGroup Label="Project References">

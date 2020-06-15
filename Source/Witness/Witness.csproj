@@ -3,7 +3,7 @@
     <PropertyGroup Label="Build">
         <TargetFramework>netstandard2.1</TargetFramework>
         <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-        <NoWarn>SA1633;SA1028</NoWarn>
+        <NoWarn>SA1633;SA1028;CA1303</NoWarn>
         <PackageId>WitnessValidation</PackageId>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
     </PropertyGroup>

@@ -3,7 +3,7 @@
     <PropertyGroup>
         <OutputType>Exe</OutputType>
         <TargetFramework>netcoreapp3.1</TargetFramework>
-        <NoWarn>SA1633;SA1028;SA1600;SA1303</NoWarn>
+        <NoWarn>SA1633;SA1028;SA1600;SA1303;CS1591</NoWarn>
         <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
     </PropertyGroup>
 

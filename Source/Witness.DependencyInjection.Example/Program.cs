@@ -12,6 +12,7 @@
                 FirstName = "Joe",
                 LastName = string.Empty,
                 Age = 5,
+                GithubAccount = "test",
             };
             
             var serviceProviderCollection = new ServiceCollection();
@@ -23,7 +24,6 @@
             {
                 Console.WriteLine(err);
             }
-            
             
             Console.ReadKey();
         }

@@ -13,8 +13,14 @@
                 Age = 5,
             };
 
-            Console.WriteLine("Validation errors:");
+            Console.WriteLine("Validation errors option A:");
             foreach (string err in Validate(person))
+            {
+                Console.WriteLine(err);
+            }
+            
+            Console.WriteLine("Validation errors option B:");
+            foreach (string err in ValidateSame(person))
             {
                 Console.WriteLine(err);
             }
@@ -33,6 +39,22 @@
                 .Age().ShouldBeInValidRange(18, 100)
                 .And()
                 .GithubAccount().ShouldExistInGithub()
+                .ExecuteValidation();
+
+            return result.ValidationErrors;
+        }
+        
+        private static string[] ValidateSame(Person person)
+        {
+            var result = person
+                .SetupValidation()
+                .RuleFor(c => c.FirstName).ShouldNotBeEmptyOrNull()
+                .And()
+                .RuleFor(c => c.LastName).ShouldNotBeEmptyOrNull()
+                .And()
+                .RuleFor(c => c.Age).ShouldBeInValidRange(18, 100)
+                .And()
+                .RuleFor(c => c.GithubAccount).ShouldExistInGithub()
                 .ExecuteValidation();
 
             return result.ValidationErrors;

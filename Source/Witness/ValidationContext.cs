@@ -28,6 +28,7 @@
             this.OUV = rootUov;
             this.OUVName = typeof(T).Name;
             this.ValidationErrors = new List<string>();
+            this.ContextData = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -37,12 +38,14 @@
         /// <param name="ouv">Current UOV.</param>
         /// <param name="ouvName">Current OUV name.</param>
         /// <param name="validationErrors">Validation errors.</param>
-        internal ValidationContext(T rootUov, TR ouv, string ouvName, List<string> validationErrors)
+        /// <param name="contextData">Context data dictionary.</param>
+        internal ValidationContext(T rootUov, TR ouv, string ouvName, List<string> validationErrors, Dictionary<string, object> contextData)
         {
             this.RootOUV = rootUov;
             this.OUV = ouv;
             this.OUVName = ouvName;
             this.ValidationErrors = validationErrors;
+            this.ContextData = contextData;
         }
 
         /// <inheritdoc/>

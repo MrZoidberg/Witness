@@ -4,7 +4,7 @@
     {
         public bool IsUserExists(string userName)
         {
-            return false;
+            return true;
         }
     }
 }
