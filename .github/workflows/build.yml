@@ -1,5 +1,11 @@
 name: Build
 
+on:
+  pull_request:
+  push:
+    tags-ignore:
+      - '*'
+
 on: ["push", "pull_request"]
 
 env:
