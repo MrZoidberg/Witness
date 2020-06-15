@@ -3,8 +3,7 @@ name: Build
 on:
   pull_request:
   push:
-    tags-ignore:
-      - '*'
+    branches:
 
 env:
   # Set the DOTNET_SKIP_FIRST_TIME_EXPERIENCE environment variable to stop wasting time caching packages

@@ -91,11 +91,11 @@ Task("Pack")
 
 Task("Publish")
     .IsDependentOn("Pack")
-    .Does(()=> 
+    .DoesForEach(GetFiles($"{artefactsDirectory}/*.nupkg"), file =>
     {
-        NuGetPush(GetFiles($"{artefactsDirectory}/*.nupkg").First(), new NuGetPushSettings {
+        NuGetPush(file.ToString(), new NuGetPushSettings {
             Source = "https://api.nuget.org/v3/index.json",
-            ApiKey = nugetApiKey
+            ApiKey = nugetApiKey,
         });
     });
 
