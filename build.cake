@@ -75,6 +75,18 @@ Task("Pack")
                 NoRestore = true,
                 OutputDirectory = artefactsDirectory,
             });
+            
+        DotNetCorePack(
+            "./Source/Witness.DependencyInjection/Witness.DependencyInjection.csproj",
+            new DotNetCorePackSettings()
+            {
+                Configuration = configuration,
+                IncludeSymbols = true,
+                MSBuildSettings = new DotNetCoreMSBuildSettings().WithProperty("SymbolPackageFormat", "snupkg"),
+                NoBuild = true,
+                NoRestore = true,
+                OutputDirectory = artefactsDirectory,
+            });
     });
 
 Task("Publish")
