@@ -17,6 +17,11 @@ Witness can be installed using the Nuget package manager or the dotnet CLI.
 
 `dotnet add package WitnessValidation`
 
+If you need to use DI for validation add the following package:
+
+`dotnet add package WitnessValidation.DependencyInjectionExtensions`
+
+
 ## Example
 
 ```csharp
@@ -84,5 +89,60 @@ var result = person
     .RuleFor(c => c.Age).ShouldBeInRange(18, 100)
     .And()
     .RuleFor(c => c.GithubAccount).ShouldExistInGithub()
+    .ExecuteValidation();
+```
+
+## DI Example
+
+```csharp
+
+public static class PersonValidationRulesExtensions
+{
+    [Pure]
+    public static Func<IValidationContext<Person, string>> ShouldExistInGithub(this Func<IValidationContext<Person, string>> context)
+    {
+        return () =>
+        {
+            var c = context();
+
+            bool isValid = !string.IsNullOrEmpty(c.OUV);
+            if (isValid)
+            {
+                var githubService = c.Resolve<IGithubService>();
+                isValid = githubService.IsUserExists(c.OUV);
+            }
+
+            if (!isValid)
+            {
+                c.ValidationErrors.Add($"{c.OUVName} should be a valid Github username");
+            }
+
+            return c;
+        };
+    }
+}
+
+Person person = new Person()
+{
+    FirstName = "Joe",
+    LastName = string.Empty,
+    Age = 5,
+    GithubAccount = "test",
+};
+
+var serviceProviderCollection = new ServiceCollection();
+serviceProviderCollection.AddTransient<IGithubService, GithubService>();
+IServiceProvider serviceProvider = serviceProviderCollection.BuildServiceProvider();
+
+var result = person
+    .SetupValidation()
+    .WithServiceProvider(serviceProvider)
+    .FirstName().ShouldNotBeEmptyOrNull()
+    .And()
+    .LastName().ShouldNotBeEmptyOrNull()
+    .And()
+    .Age().ShouldBeInRange(18, 100)
+    .And()
+    .GithubAccount().ShouldExistInGithub()
     .ExecuteValidation();
 ```
