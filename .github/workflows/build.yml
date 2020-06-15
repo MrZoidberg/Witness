@@ -6,8 +6,6 @@ on:
     tags-ignore:
       - '*'
 
-on: ["push", "pull_request"]
-
 env:
   # Set the DOTNET_SKIP_FIRST_TIME_EXPERIENCE environment variable to stop wasting time caching packages
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
