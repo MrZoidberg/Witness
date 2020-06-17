@@ -31,7 +31,7 @@
         private static string[] Validate(Person person)
         {
             var result = person
-                .SetupValidation()
+                .Validate()
                 .FirstName().ShouldNotBeEmptyOrNull()
                 .And()
                 .LastName().ShouldNotBeEmptyOrNull()
@@ -39,7 +39,7 @@
                 .Age().ShouldBeInRange(18, 100)
                 .And()
                 .GithubAccount().ShouldExistInGithub()
-                .ExecuteValidation();
+                .Execute();
 
             return result.ValidationErrors;
         }
@@ -47,7 +47,7 @@
         private static string[] ValidateSame(Person person)
         {
             var result = person
-                .SetupValidation()
+                .Validate()
                 .RuleFor(c => c.FirstName).ShouldNotBeEmptyOrNull()
                 .And()
                 .RuleFor(c => c.LastName).ShouldNotBeEmptyOrNull()
@@ -55,7 +55,7 @@
                 .RuleFor(c => c.Age).ShouldBeInRange(18, 100)
                 .And()
                 .RuleFor(c => c.GithubAccount).ShouldExistInGithub()
-                .ExecuteValidation();
+                .Execute();
 
             return result.ValidationErrors;
         }

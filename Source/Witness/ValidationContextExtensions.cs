@@ -117,7 +117,7 @@ namespace Witness
         /// <typeparam name="T">Type of the root OUV (object under validation).</typeparam>
         /// <returns>Validation pipeline function.</returns>
         [Pure]
-        public static Func<IValidationContext<T, T>> SetupValidation<T>(this T rootObject)
+        public static Func<IValidationContext<T, T>> Validate<T>(this T rootObject)
             where T : class
         {
             if (rootObject == null)
@@ -153,7 +153,7 @@ namespace Witness
         /// <typeparam name="T1">Type of the current OUV for input function.</typeparam>
         /// <returns>Is valid flag and array of validation errors.</returns>
         [Pure]
-        public static (bool IsValid, string[] ValidationErrors) ExecuteValidation<T, T1>(
+        public static (bool IsValid, string[] ValidationErrors) Execute<T, T1>(
             this Func<IValidationContext<T, T1>> context)
         {
             if (context == null)

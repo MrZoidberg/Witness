@@ -33,12 +33,12 @@ namespace Witness
 
                 if (c.OUV.CompareTo(from) == -1)
                 {
-                    c.ValidationErrors.Add($"{c.OUVName} length cannot be less than {from}");
+                    c.ValidationErrors.Add($"{c.OUVName} cannot be less than {from}");
                 }
                 
                 if (c.OUV.CompareTo(to) == 1)
                 {
-                    c.ValidationErrors.Add($"{c.OUVName} length cannot be bigger than {to}");
+                    c.ValidationErrors.Add($"{c.OUVName} cannot be bigger than {to}");
                 }
 
                 return c;

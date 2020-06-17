@@ -31,7 +31,7 @@
         private static string[] Validate(Person person, IServiceProvider serviceProvider)
         {
             var result = person
-                .SetupValidation()
+                .Validate()
                 .WithServiceProvider(serviceProvider)
                 .FirstName().ShouldNotBeEmptyOrNull()
                 .And()
@@ -40,7 +40,7 @@
                 .Age().ShouldBeInRange(18, 100)
                 .And()
                 .GithubAccount().ShouldExistInGithub()
-                .ExecuteValidation();
+                .Execute();
 
             return result.ValidationErrors;
         }

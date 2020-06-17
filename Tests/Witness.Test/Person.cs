@@ -6,7 +6,11 @@
 
         public string LastName { get; set; }
 
-        public uint Age { get; set; }
+        public uint AgeUint { get; set; }
+
+        public int AgeInt { get; set; }
+
+        public double AgeDouble { get; set; }
 
         public string GithubAccount { get; set; }
     }

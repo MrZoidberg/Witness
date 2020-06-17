@@ -79,9 +79,8 @@ Person person = new Person()
     GithubAccount = "test",
 };
 
-RootValidationContext<Person> validationContext = new RootValidationContext<Person>(person);
 var result = person
-    .SetupValidation()
+    .Validate()
     .RuleFor(c => c.FirstName).ShouldNotBeEmptyOrNull()
     .And()
     .RuleFor(c => c.LastName).ShouldNotBeEmptyOrNull()
@@ -89,7 +88,7 @@ var result = person
     .RuleFor(c => c.Age).ShouldBeInRange(18, 100)
     .And()
     .RuleFor(c => c.GithubAccount).ShouldExistInGithub()
-    .ExecuteValidation();
+    .Execute();
 ```
 
 ## DI Example
@@ -135,7 +134,7 @@ serviceProviderCollection.AddTransient<IGithubService, GithubService>();
 IServiceProvider serviceProvider = serviceProviderCollection.BuildServiceProvider();
 
 var result = person
-    .SetupValidation()
+    .Validate()
     .WithServiceProvider(serviceProvider)
     .FirstName().ShouldNotBeEmptyOrNull()
     .And()
@@ -144,5 +143,5 @@ var result = person
     .Age().ShouldBeInRange(18, 100)
     .And()
     .GithubAccount().ShouldExistInGithub()
-    .ExecuteValidation();
+    .Execute();
 ```
