@@ -26,25 +26,6 @@
         }
 
         [Fact]
-        public void RuleFor_WithContextObject_ShouldReturnCorrectContext()
-        {
-            // arrange
-            Person person = new Person()
-            {
-                FirstName = "Joe",
-            };
-
-            // act
-            var firstNameContext = person.Validate().RuleFor(c => c.FirstName).Invoke();
-
-            // assert
-            firstNameContext.RootOUV.Should().Be(person);
-            firstNameContext.OUVName.Should().Be("FirstName");
-            firstNameContext.OUV.Should().Be("Joe");
-            firstNameContext.ValidationErrors.Should().BeEmpty();
-        }
-
-        [Fact]
         public void RuleFor_WithNullExpression_ProducesException()
         {
             // arrange
