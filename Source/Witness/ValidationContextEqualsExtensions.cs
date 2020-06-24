@@ -14,7 +14,7 @@ namespace Witness
         /// </summary>
         /// <param name="input">Input validation pipeline function.</param>
         /// <param name="value">Value to compare.</param>
-        /// <param name="comparer">Equality comparer</param>
+        /// <param name="comparer">Equality comparer.</param>
         /// <typeparam name="T">Type of the root OUV.</typeparam>
         /// <typeparam name="TR">Type of the current OUV.</typeparam>
         /// <returns>Resulting validation pipeline function.</returns>
@@ -43,7 +43,7 @@ namespace Witness
         /// </summary>
         /// <param name="input">Input validation pipeline function.</param>
         /// <param name="value">Value to compare.</param>
-        /// <param name="comparer">Equality comparer</param>
+        /// <param name="comparer">Equality comparer.</param>
         /// <typeparam name="T">Type of the root OUV.</typeparam>
         /// <typeparam name="TR">Type of the current OUV.</typeparam>
         /// <returns>Resulting validation pipeline function.</returns>
@@ -67,8 +67,10 @@ namespace Witness
             };
         }
         
-        private static bool Compare(object comparisonValue, object propertyValue, IEqualityComparer comparer) {
-            if (comparer != null) {
+        private static bool Compare(object comparisonValue, object propertyValue, IEqualityComparer comparer) 
+        {
+            if (comparer != null) 
+            {
                 return comparer.Equals(comparisonValue, propertyValue);
             }
 

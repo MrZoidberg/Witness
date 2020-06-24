@@ -21,15 +21,33 @@ namespace Witness
         [Pure]
         public static Func<IValidationContext<T, T11>> If<T, T11, T22>(
             this Func<IValidationContext<T, T11>> input,
-            Func<IValidationContext<T, T11>, bool> condition,
-            Func<Func<IValidationContext<T, T11>>, Func<IValidationContext<T, T22>>> positive)
+            Func<T, bool> condition,
+            Func<Func<IValidationContext<T, T11>>, Func<IValidationContext<T, T22>>> positive) 
+            where T : class
         {
+            if (condition == null)
+            {
+                throw new ArgumentNullException(nameof(condition));
+            }
+
+            if (positive == null)
+            {
+                throw new ArgumentNullException(nameof(positive));
+            }
+
             return () =>
             {
                 var result = input();
-                if (condition(result))
+                if (condition(result.RootOUV))
                 {
-                    positive(input)();
+                     var branchContext = positive(input)();
+                     
+                     return new ValidationContext<T, T11>(
+                         result.RootOUV, 
+                         result.OUV, 
+                         result.RootOUV.GetType().Name, 
+                         branchContext.ValidationErrors,
+                         branchContext.ContextData);
                 }
 
                 return result;
